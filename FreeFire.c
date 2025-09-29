@@ -4,10 +4,48 @@
 #include <stdbool.h>
 
 // Código da Ilha – Edição Free Fire
-// Nível: Mestre
+// Nível: Novato
+// Autor: Wellington Kister do Nascimento
 // Este programa simula o gerenciamento avançado de uma mochila com componentes coletados durante a fuga de uma ilha.
 // Ele introduz ordenação com critérios e busca binária para otimizar a gestão dos recursos.
 
+// --- Constantes Globais ---
+#define MAX_ITENS = 10;  // Tamanho máximo de itens na mochila
+#define TAM_STRING = 50; // Tamanho máximo para strings
+
+char tipoItens[5][TAM_STRING] = {"Arma", "Municao", "Cura", "Equipamento", "Outro"};
+
+// --- Definição da Estrutura de Dados ---
+// Estrutura para representar um item na mochila
+struct Item {
+    char nome[TAM_STRING]; // Nome do item
+    char tipo[TAM_STRING]; // Tipo do item (Arma, Munição, Cura, Equipamento, Outro)
+    int quantidade; // Quantidade do item
+};
+
+// Estrutra para a mochila
+typedef struct mochila{
+    struct Item itens[MAX_ITENS]; // Vetor de itens, com no maáximo de MAX_ITENS
+    int numItens; // Quantidade de itens na mochila
+} mochila;
+
+// Protótipos das funções gerais
+
+// Função para limpar o buffer de entrada
+void limparBufferEntrada();
+
+// Mostrar o menu principal
+void exibirMenu();
+void exibirItens(char tipoItens[5][TAM_STRING]);
+
+// Protótipos das funções
+void cadastrarItem(mochila *m);
+void removerItem(mochila *m, char item[TAM_STRING]);
+void listarItens(mochila m);
+void buscarItemPorNome(mochila m, char nome[TAM_STRING]);
+
+
+// Função principal
 int main() {
     // Menu principal com opções:
     // 1. Adicionar um item
@@ -22,6 +60,73 @@ int main() {
 
     return 0;
 }
+
+// Funções gerais
+/**
+ * @brief Função para limpar o buffer de entrada
+ */
+void limparBufferEntrada(){
+    int c;
+    while ((c = getchar()) != '\n' && c != EOF);
+}
+
+/**
+ * @brief Função para exibir o menu principal
+ */
+void exibirMenu(){
+    printf("\n--- MENU PRINCIPAL ---\n");
+    printf("1. Adicionar um item na mochila\n");
+    printf("2. Remover um item da mochila\n");
+    printf("3. Listar todos os itens na mochila\n");
+    printf("6. Buscar um item por nome (busca sequencial)\n");
+    printf("0. Sair\n");
+    printf("Escolha uma opção: ");
+}
+
+/**
+ * @brief Função para exibir os tipos de itens
+ * @param tipoItens Vetor de tipos de item
+ */
+void exibirItens(char tipoItens[5][TAM_STRING]){
+    printf("Tipos de Itens Disponíveis:\n");
+    for (int i = 0; i < 5; i++){
+        printf("%d. %s\n", i + 1, tipoItens[i]);
+    }
+}
+
+// Funções de manipulação da mochila
+/**
+ * @brief Função para cadastrar um item na mochila
+ * @param m Ponteiro para a mochila
+ */
+void cadastrarItem(mochila *m){
+
+}
+
+/**
+ * @brief Função para remover um item da mochila
+ * @param m Ponteiro para a mochila
+ * @param item Nome do item a ser removido
+ */
+void removerItem(mochila *m, char item[TAM_STRING]){
+
+}
+
+/**
+ * @brief Função para listar os itens da mochila
+ * @param m Estrutura da mochila
+ */
+void listarItens(mochila m){
+
+}
+
+/**
+ * @brief Função para buscar um item por nome na mochila
+ * @param m Estrutura da mochila
+ * @param nome Nome do item a ser buscado
+ */
+void buscarItemPorNome(mochila m, char nome[TAM_STRING]);
+
 
 // Struct Item:
 // Representa um componente com nome, tipo, quantidade e prioridade (1 a 5).
