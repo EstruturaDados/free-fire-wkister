@@ -43,6 +43,7 @@ void cadastrarItem(mochila *m, char tipoItens[5][TAM_STRING]);
 void removerItem(mochila *m);
 void removerItemPorNome(mochila *m, char item[TAM_STRING]);
 void listarItens(mochila m);
+void buscarItem(mochila m);
 int buscarItemPorNome(mochila m, char nome[TAM_STRING]);
 
 
