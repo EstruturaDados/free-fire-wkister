@@ -14,8 +14,6 @@
 // Este programa simula o gerenciamento avançado de uma mochila com componentes coletados durante a fuga de uma ilha.
 // Ele introduz ordenação com critérios e busca binária para otimizar a gestão dos recursos.
 
-// --- Constantes Globais ---
-
 // Função principal
 int main() {
     // Semente para números aleatórios
