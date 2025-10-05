@@ -2,6 +2,7 @@
 #include <string.h>
 #include <stdlib.h>
 #include <stdbool.h>
+#include <time.h>
 
 // Código da Ilha – Edição Free Fire
 // Nível: Novato
@@ -129,6 +130,41 @@ void exibirTiposItens(char tipoItens[5][TAM_STRING]){
 void cadastrarItem(mochila *m, char tipoItens[5][TAM_STRING]){
     // Variável para armazenar o nome do item
     char item[TAM_STRING];
+    // Variável para armazenar a quantidade do item
+    int quantidade;
+
+    // Perguntar se quer adicionar os itens de forma aleatória
+    char escolha;
+    printf("Deseja adicionar itens de forma aleatória? (s/n): ");
+    scanf(" %c", &escolha);
+    limparBufferEntrada();
+    if (escolha == 's' || escolha == 'S'){
+        // Adicionar itens aleatórios
+        while (m->numItens < MAX_ITENS){
+            // Gerar um nome aleatório para o item
+            snprintf(item, TAM_STRING, "Item%d", m->numItens + 1);
+            // Gerar uma quantidade aleatória entre 1 e 5
+            quantidade = (rand() % 5) + 1;
+            // Escolher um tipo aleatório
+            int tipoAleatorio = rand() % 5;
+            // Verificar se o item já existe na mochila
+            int indiceItem = buscarItemPorNome(*m, item);
+            if (indiceItem != -1){
+                // Item já existe, incrementar a quantidade
+                m->itens[indiceItem].quntidade += quantidade;
+                printf("Item '%s' já existe na mochila. Quantidade incrementada para %d.\n", item, m->itens[indiceItem].quntidade);
+            } else {
+                // Adicionar novo item
+                strcpy(m->itens[m->numItens].nome, item);
+                strcpy(m->itens[m->numItens].tipo, tipoItens[tipoAleatorio]);
+                m->itens[m->numItens].quntidade = quantidade;
+                m->numItens++;
+                printf("Item '%s' do tipo '%s' adicionado com quantidade %d.\n", item, tipoItens[tipoAleatorio], quantidade);
+            }
+        }
+        printf("Mochila cheia! Não é possível adicionar mais itens.\n");
+        return;
+    }
 
     // Testar se a mochila está cheia
     if (m->numItens >= MAX_ITENS){
@@ -146,13 +182,21 @@ void cadastrarItem(mochila *m, char tipoItens[5][TAM_STRING]){
                 fgets(item, TAM_STRING, stdin);
                 // Remover o caractere de nova linha, se presente
                 item[strcspn(item, "\n")] = 0;
+
                 // Copiar o item para a mochila se o item não estiver vazio
                 if (strlen(item) > 0){
+                    // Solicitar a quantidade do item
+                    do{
+                        printf("Quanatos itens foram encontrados? ");
+                        scanf("%d", &quantidade);
+                        limparBufferEntrada();
+                    } while (quantidade < 1);
+
                     // Procura pelo item na mochila
                     int indiceItem = buscarItemPorNome(*m, item);
                     if (indiceItem != -1){
                         // Item já existe, incrementar a quantidade
-                        m->itens[indiceItem].quntidade++;
+                        m->itens[indiceItem].quntidade += quantidade;
                         printf("Item '%s' já existe na mochila. Quantidade incrementada para %d.\n", item, m->itens[indiceItem].quntidade);
                     } else {
                         // Copiando o nome do item para a mochila
@@ -172,7 +216,7 @@ void cadastrarItem(mochila *m, char tipoItens[5][TAM_STRING]){
                         } while (tipoEscolhido < 1 || tipoEscolhido > 5);
                         strcpy(m->itens[m->numItens - 1].tipo, tipoItens[tipoEscolhido - 1]);
                         // Incrementando a quantidade do item
-                        m->itens[m->numItens - 1].quntidade++;
+                        m->itens[m->numItens - 1].quntidade = quantidade;
                         // Mensagem de sucesso
                         printf("Item adicionado com sucesso!\n");
                     }
@@ -268,7 +312,11 @@ void buscarItem(mochila m){
     printf("Digite o nome do item a ser buscado: ");
     fgets(nome, TAM_STRING, stdin);
     nome[strcspn(nome, "\n")] = 0; // Remover o caractere de nova linha
+    clock_t inicio = clock();
     buscarItemPorNome(m, nome);
+    clock_t fim = clock();
+    double tempoGasto = (double)(fim - inicio) / CLOCKS_PER_SEC;
+    printf("Tempo gasto na busca: %.6f segundos\n", tempoGasto);
 }
 
 /**
