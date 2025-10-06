@@ -9,19 +9,22 @@
 /**
  * @brief Função para cadastrar um item na mochila
  * @param m Ponteiro para a mochila
+ * @param tipoItens Matriz de strings com os tipos de itens disponíveis
  */
 void cadastrarItem(mochila *m, char tipoItens[5][TAM_STRING]){
+    printf("\n----------------------------------\n");
+    printf("--- Adicionar Itens na Mochila ---\n");
+    printf("----------------------------------\n");
     // Variável para armazenar o nome do item
     char item[TAM_STRING];
     // Variável para armazenar a quantidade do item
     int quantidade;
+    // Variável contador de operções
+    int numOperacoes = 0;
 
     // Perguntar se quer adicionar os itens de forma aleatória
     char escolha;
 
-    printf("\n----------------------------------\n");
-    printf("--- Adicionar Itens na Mochila ---\n");
-    printf("----------------------------------\n");
     printf("Deseja adicionar itens de forma aleatória? (s/n): ");
     scanf(" %c", &escolha);
     limparBufferEntrada();
@@ -34,34 +37,70 @@ void cadastrarItem(mochila *m, char tipoItens[5][TAM_STRING]){
             quantidade = (rand() % 5) + 1;
             // Escolher um tipo aleatório
             int tipoAleatorio = rand() % 5;
-            // Verificar se o item já existe na mochila
-            // int indiceItem = buscarItemPorNome(*m, item);
-            // if (indiceItem != -1){
-            //     // Item já existe, incrementar a quantidade
-            //     m->itens[indiceItem].quntidade += quantidade;
-            //     printf("Item '%s' já existe na mochila. Quantidade incrementada para %d.\n", item, m->itens[indiceItem].quntidade);
-            // } else {
-                // Adicionar novo item
-                strcpy(m->itens[m->numItens].nome, item);
-                strcpy(m->itens[m->numItens].tipo, tipoItens[tipoAleatorio]);
-                m->itens[m->numItens].quntidade = quantidade;
-                m->numItens++;
-                printf("Item '%s' do tipo '%s' adicionado com quantidade %d.\n", item, tipoItens[tipoAleatorio], quantidade);
-            // }
+
+            // Adicionar item
+            strcpy(m->itens[m->numItens].nome, item);
+            strcpy(m->itens[m->numItens].tipo, tipoItens[tipoAleatorio]);
+            m->itens[m->numItens].quntidade = quantidade;
+            m->numItens++; // Incrementar o número de itens na mochila
+            numOperacoes++; // Incrementar o contador de operações
+            printf("Item '%s' do tipo '%s' adicionado com quantidade %d.\n", item, tipoItens[tipoAleatorio], quantidade);
         }
         printf("Mochila cheia! Não é possível adicionar mais itens.\n");
+        printf("----------------------------------\n");
+        printf("Total de operações realizadas: %d\n", numOperacoes);
+        printf("----------------------------------\n");
         return;
     }
+
 
     // Testar se a mochila está cheia
     if (m->numItens >= MAX_ITENS){
         printf("A mochila está cheia. Não é possível adicionar mais itens.\n");
     } else {
+        /**
+         * ------------------------------------------------------
+         * MODO DE ADIÇÃO DE ITENMS MANUAL
+         * DEVE SER APAGADO EM MODO PRODUÇÃO
+         * ------------------------------------------------------
+         */
+        // Item 1
+        strcpy(m->itens[m->numItens].nome, "Bandagem");
+        strcpy(m->itens[m->numItens].tipo, "Cura");
+        m->itens[m->numItens].quntidade = 3;
+        m->numItens++;
+        // Item 2
+        strcpy(m->itens[m->numItens].nome, "Pistola");
+        strcpy(m->itens[m->numItens].tipo, "Arma");
+        m->itens[m->numItens].quntidade = 1;
+        m->numItens++;
+        // Item 3
+        strcpy(m->itens[m->numItens].nome, "Municaoo de Pistola");
+        strcpy(m->itens[m->numItens].tipo, "Municao");
+        m->itens[m->numItens].quntidade = 50;
+        m->numItens++;
+        // Item 4
+        strcpy(m->itens[m->numItens].nome, "Colete");
+        strcpy(m->itens[m->numItens].tipo, "Equipamento");
+        m->itens[m->numItens].quntidade = 1;
+        m->numItens++;
+        // Item 5
+        strcpy(m->itens[m->numItens].nome, "Kit Medico");
+        strcpy(m->itens[m->numItens].tipo, "Cura");
+        m->itens[m->numItens].quntidade = 1;
+        m->numItens++;
+        return;
+        /**
+         * ------------------------------------------------------
+         * MODO DE ADIÇÃO DE ITENMS MANUAL
+         * DEVE SER APAGADO EM MODO PRODUÇÃO
+         * ------------------------------------------------------
+         */
         // Loop para adicionar um item, parando quando entrar um item vazio
         do {
-            if (m->numItens == MAX_ITENS){
-                printf("A mochila está cheia. Não é possível adicionar mais itens.\n");
-            } else {
+            // if (m->numItens == MAX_ITENS){
+            //     printf("A mochila está cheia. Não é possível adicionar mais itens.\n");
+            // } else {
                 // Iniciallaizando o item da mochila
                 m->itens[m->numItens].quntidade = 0;
                 // Solicitar o nome do item
@@ -106,9 +145,10 @@ void cadastrarItem(mochila *m, char tipoItens[5][TAM_STRING]){
                         m->itens[m->numItens - 1].quntidade = quantidade;
                         // Mensagem de sucesso
                         printf("Item adicionado com sucesso!\n");
+                        printf("----------------------------------\n");
                     }
                 }
-            }
+            // }
         } while (m->numItens < MAX_ITENS && strlen(item) > 0);
     }
 }
@@ -116,12 +156,14 @@ void cadastrarItem(mochila *m, char tipoItens[5][TAM_STRING]){
 /**
  * @brief Função para remover um item da mochila
  * @param m Ponteiro para a mochila
- * @param item Nome do item a ser removido
  */
 void removerItem(mochila *m){
     printf("\n----------------------------------\n");
     printf("--- Remover Itens da Mochila ---\n");
     printf("----------------------------------\n");
+    // Mostrar os itens para a escolha
+    listarItens(*m);
+    // Variável para armazenar o nome do item a ser removido
     char item[TAM_STRING];
     printf("Digite o nome do item a ser removido: ");
     fgets(item, TAM_STRING, stdin);
@@ -140,6 +182,9 @@ void removerItem(mochila *m){
  * @param item Nome do item a ser removido
  */
 void removerItemPorNome(mochila *m, char item[TAM_STRING]){
+    // Variável contador de operações
+    int numOperacoes = 0;
+    // Procurar o item na mochila
     for (int i = 0; i < m->numItens; i++){
         if (strcmp(m->itens[i].nome, item) == 0){
             // Item encontrado
@@ -162,6 +207,7 @@ void removerItemPorNome(mochila *m, char item[TAM_STRING]){
                     strcpy(m->itens[j].nome, m->itens[j + 1].nome);
                     strcpy(m->itens[j].tipo, m->itens[j + 1].tipo);
                     m->itens[j].quntidade = m->itens[j + 1].quntidade;
+                    numOperacoes++; // Incrementar o contador de operações
                 }
                 // Apaganado o último item duplicado
                 m->itens[m->numItens - 1].nome[0] = '\0';
@@ -173,6 +219,8 @@ void removerItemPorNome(mochila *m, char item[TAM_STRING]){
                 printf("Removida '%d' itens de %s.\n", m->itens[i].quntidade, item);
             }
             printf("Item '%s' removido com sucesso!\n", item);
+            printf("------------------------------\n");
+            printf("Total de operações realizadas: %d\n", numOperacoes);
             printf("------------------------------\n");
             return;
         }
@@ -197,10 +245,13 @@ void listarItens(mochila m){
         }
         printf("-------------------------------------------------\n");
     }
+    printf("Pressione Enter para continuar...");
+    getchar();
 }
 
 /**
- * @brief Função para buscar um item na mochila
+ * @brief Função para buscar um item na mochila sequencialmente
+ * @param m Estrutura da mochila
  */
 void buscarItem(mochila m){
     printf("\n------------------------------\n");
@@ -244,4 +295,131 @@ int buscarItemPorNome(mochila m, char nome[TAM_STRING]){
     printf("Item '%s' não encontrado na mochila.\n", nome);
     printf("--------------------------\n");
     return -1;
+}
+
+/**
+ * @brief Função para realizar uma busca binária na mochila (deve estar ordenada por nome)
+ * @param m Estrutura da mochila
+ */
+void buscaBinaria(mochila m){
+    printf("\n--------------------------------\n");
+    printf("--- Busca Binária na Mochila ---\n");
+    printf("--------------------------------\n");
+    // Não permitir busca se a mochila estiver vazia
+    if (m.numItens == 0){
+        printf("A mochila está vazia. Não é possível realizar a busca.\n");
+        return;
+    }
+    // Verificar se a mochila está ordenada
+    if (!m.ordenado){
+        char escolha;
+        printf("A mochila não está ordenada por nome. Deseja ordenar? (s/n): ");
+        scanf(" %c", &escolha);
+        limparBufferEntrada();
+        if (escolha == 's' || escolha == 'S'){
+            ordenarItensPorNome(&m);
+        } else {
+            printf("Busca binária requer que a mochila esteja ordenada. Abortando busca.\n");
+            return;
+        }
+    }
+    // Listar os itens da mochila
+    listarItens(m);
+    // Solicitar o nome do item a ser buscado
+    char nome[TAM_STRING];
+    printf("Digite o nome do item a ser buscado (busca binária): ");
+    fgets(nome, TAM_STRING, stdin);
+    nome[strcspn(nome, "\n")] = 0; // Remover o caractere de nova linha
+    clock_t inicio = clock();
+    buscarItemBinariaPorNome(m, nome);
+    clock_t fim = clock();
+    tempoGasto(inicio, fim);
+    printf("------------------------------\n");
+}
+
+/**
+ * @brief Função para buscar um item por nome na mochila usando busca binária recursiva
+ * @param m Estrutura da mochila
+ * @param nome Nome do item a ser buscado
+ */
+void buscarItemBinariaPorNome(mochila m, char nome[TAM_STRING]){
+    int numOperacoes = 0;
+    buscarItemBinariaRecursivaAux(m, nome, 0, m.numItens - 1, &numOperacoes);
+    // printf("Total de operações realizadas: %d\n", numOperacoes);
+}
+
+/**
+ * @brief Função auxiliar para busca binária recursiva
+ * @param m Estrutura da mochila
+ * @param nome Nome do item a ser buscado
+ * @param inicio Índice inicial da busca
+ * @param fim Índice final da busca
+ * @param numOperacoes Contador de operações realizadas
+ */
+void buscarItemBinariaRecursivaAux(mochila m, char nome[TAM_STRING], int inicio, int fim, int *numOperacoes){
+    if (inicio > fim){
+        // Item não encontrado
+        printf("\n--------------------------\n");
+        printf("Item '%s' não encontrado na mochila.\n", nome);
+        printf("--------------------------\n");
+        return;
+    }
+    int meio = (inicio + fim) / 2;
+    int cmp = strcmp(m.itens[meio].nome, nome);
+    if (cmp == 0){
+        // Item encontrado
+        printf("\n--------------------------\n");
+        printf("--- Resultado da Busca ---\n");
+        printf("--------------------------\n");
+        printf("Item encontrado na posição %d:\n", meio + 1);
+        printf("Nome: %s\n", m.itens[meio].nome);
+        printf("Tipo: %s\n", m.itens[meio].tipo);
+        printf("Quantidade: %d\n", m.itens[meio].quntidade);
+        printf("----------------------------------\n");
+        printf("Total de operações realizadas: %d\n", *numOperacoes);
+        printf("----------------------------------\n");
+    } else if (cmp < 0){
+        // Buscar na metade direita
+        (*numOperacoes)++;
+        buscarItemBinariaRecursivaAux(m, nome, meio + 1, fim, numOperacoes);
+    } else {
+        // Buscar na metade esquerda
+        (*numOperacoes)++;
+        buscarItemBinariaRecursivaAux(m, nome, inicio, meio - 1, numOperacoes);
+    }
+}
+
+/**
+ * @brief Função para ordenar os itens da mochila por nome
+ * @note usando o algoritmo de bolha (Bubble Sort)
+ * @param m Ponteiro para a mochila
+ */
+void ordenarItensPorNome(mochila *m){
+    if (m->numItens < 2){
+        printf("A mochila tem menos de 2 itens. Não é necessário ordenar.\n");
+        return;
+    }
+    // Ordenação usando Bubble Sort
+    printf("\n------------------------------\n");
+    printf("--- Ordenando Itens por nome (Bubble Search) ---\n");
+    printf("------------------------------\n");
+    // Variável contador de operações
+    int numOperacoes = 0;
+    // Algoritmo de ordenação Bubble Sort
+    for (int i = 0; i < m->numItens - 1; i++){
+        for (int j = 0; j < m->numItens - i - 1; j++){
+            if (strcmp(m->itens[j].nome, m->itens[j + 1].nome) > 0){
+                // Trocar os itens
+                struct Item temp = m->itens[j];
+                m->itens[j] = m->itens[j + 1];
+                m->itens[j + 1] = temp;
+                numOperacoes++; // Incrementar o contador de operações
+            }
+        }
+    }
+    m->ordenado = 1; // Marca a mochila como ordenada
+    printf("Itens ordenados por nome com sucesso!\n");
+    printf("----------------------------------\n");
+    printf("Total de operações realizadas: %d\n", numOperacoes);
+    printf("----------------------------------\n");
 }

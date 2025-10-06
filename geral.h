@@ -14,4 +14,7 @@ void limparBufferEntrada();
 // Mostrar os tipos de item para escolha
 void exibirTiposItens(char tipoItens[5][TAM_STRING]);
 
+// Função para imprimir o tempo gasto em operações
+void tempoGasto(clock_t inicio, clock_t fim);
+
 #endif

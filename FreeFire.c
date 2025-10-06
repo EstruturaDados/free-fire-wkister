@@ -26,6 +26,7 @@ int main() {
     mochila minhaMochila;
     // Inicializando a mochila
     minhaMochila.numItens = 0;
+    minhaMochila.ordenado = 0; // Inicialmente não está ordenada
     // Variável para armazenar a opção do menu
     int opcao = 0;
     // Loop do menu
@@ -44,10 +45,17 @@ int main() {
             case 3:
                 listarItens(minhaMochila);
                 break;
-            case 6: {
+            case 4: {
                 buscarItem(minhaMochila);
                 break;
             }
+            case 5: {
+                buscaBinaria(minhaMochila);
+                break;
+            }
+            case 6:
+                ordenarItensPorNome(&minhaMochila);
+                break;
             case 0:
                 printf("Saindo do programa. Até a próxima!\n");
                 break;
