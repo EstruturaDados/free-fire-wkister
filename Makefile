@@ -33,6 +33,7 @@ LISTA_OBJ = $(OBJDIR)/listas.o
 
 # Permite compilar um arquivo específico: make file=exemplo.c
 
+
 ifeq ($(file),)
 all: dirs $(TARGETS)
 else
@@ -42,12 +43,22 @@ FILE_NAME = $(notdir $(FILE_PATH))
 FILE_BASE = $(basename $(FILE_NAME))
 FILE_OBJ = $(OBJDIR)/$(FILE_BASE).o
 FILE_BIN = $(BINDIR)/$(FILE_BASE)
-all: dirs $(FILE_BIN)
-$(FILE_BIN): $(FILE_PATH) $(MENU_OBJ) $(GERAL_OBJ) $(VETOR_OBJ) $(LISTA_OBJ)
-	@mkdir -p $(dir $(FILE_OBJ))
-	@mkdir -p $(dir $(FILE_BIN))
+all: dirs build_file
+
+# Detecta se o arquivo tem main
+HAS_MAIN := $(shell grep -c 'int main' $(FILE_PATH))
+
+
+build_file:
+ifeq ($(HAS_MAIN),0)
+	@echo "Compilando apenas o objeto de $(FILE_PATH) (sem main)"
+	$(CC) $(CFLAGS) -c $(FILE_PATH) -o $(FILE_OBJ)
+else
+	@echo "Compilando e linkando $(FILE_PATH) (possui main)"
+	$(MAKE) $(MENU_OBJ) $(GERAL_OBJ) $(VETOR_OBJ) $(LISTA_OBJ)
 	$(CC) $(CFLAGS) -c $(FILE_PATH) -o $(FILE_OBJ)
 	$(CC) $(LDFLAGS) $(FILE_OBJ) $(MENU_OBJ) $(GERAL_OBJ) $(VETOR_OBJ) $(LISTA_OBJ) -o $(FILE_BIN)
+endif
 endif
 
 # Compila funcoes.c em obj/funcoes.o
