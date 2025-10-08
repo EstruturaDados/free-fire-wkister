@@ -58,98 +58,104 @@ void cadastrarItem(mochila *m, char tipoItens[5][TAM_STRING]){
     if (m->numItens >= MAX_ITENS){
         printf("A mochila está cheia. Não é possível adicionar mais itens.\n");
     } else {
-        /**
-         * ------------------------------------------------------
-         * MODO DE ADIÇÃO DE ITENMS MANUAL
-         * DEVE SER APAGADO EM MODO PRODUÇÃO
-         * ------------------------------------------------------
-         */
-        // Item 1
-        strcpy(m->itens[m->numItens].nome, "Bandagem");
-        strcpy(m->itens[m->numItens].tipo, "Cura");
-        m->itens[m->numItens].quntidade = 3;
-        m->numItens++;
-        // Item 2
-        strcpy(m->itens[m->numItens].nome, "Pistola");
-        strcpy(m->itens[m->numItens].tipo, "Arma");
-        m->itens[m->numItens].quntidade = 1;
-        m->numItens++;
-        // Item 3
-        strcpy(m->itens[m->numItens].nome, "Municaoo de Pistola");
-        strcpy(m->itens[m->numItens].tipo, "Municao");
-        m->itens[m->numItens].quntidade = 50;
-        m->numItens++;
-        // Item 4
-        strcpy(m->itens[m->numItens].nome, "Colete");
-        strcpy(m->itens[m->numItens].tipo, "Equipamento");
-        m->itens[m->numItens].quntidade = 1;
-        m->numItens++;
-        // Item 5
-        strcpy(m->itens[m->numItens].nome, "Kit Medico");
-        strcpy(m->itens[m->numItens].tipo, "Cura");
-        m->itens[m->numItens].quntidade = 1;
-        m->numItens++;
-        return;
-        /**
-         * ------------------------------------------------------
-         * MODO DE ADIÇÃO DE ITENMS MANUAL
-         * DEVE SER APAGADO EM MODO PRODUÇÃO
-         * ------------------------------------------------------
-         */
-        // Loop para adicionar um item, parando quando entrar um item vazio
-        do {
-            // if (m->numItens == MAX_ITENS){
-            //     printf("A mochila está cheia. Não é possível adicionar mais itens.\n");
-            // } else {
-                // Iniciallaizando o item da mochila
-                m->itens[m->numItens].quntidade = 0;
-                // Solicitar o nome do item
-                printf("Digite o nome do item a ser adicionado na mochila (ou pressione Enter para sair): ");
-                fgets(item, TAM_STRING, stdin);
-                // Remover o caractere de nova linha, se presente
-                item[strcspn(item, "\n")] = 0;
+        printf("Você deseja adicionar alguns itens automaticamente para teste? (s/n): ");
+        scanf(" %c", &escolha);
+        limparBufferEntrada();
+        if (escolha == 's' || escolha == 'S'){
+            /**
+             * ------------------------------------------------------
+             * MODO DE ADIÇÃO DE ITENMS MANUAL
+             * DEVE SER APAGADO EM MODO PRODUÇÃO
+             * ------------------------------------------------------
+             */
+            // Item 1
+            strcpy(m->itens[m->numItens].nome, "Bandagem");
+            strcpy(m->itens[m->numItens].tipo, "Cura");
+            m->itens[m->numItens].quntidade = 3;
+            m->numItens++;
+            // Item 2
+            strcpy(m->itens[m->numItens].nome, "Pistola");
+            strcpy(m->itens[m->numItens].tipo, "Arma");
+            m->itens[m->numItens].quntidade = 1;
+            m->numItens++;
+            // Item 3
+            strcpy(m->itens[m->numItens].nome, "Municaoo de Pistola");
+            strcpy(m->itens[m->numItens].tipo, "Municao");
+            m->itens[m->numItens].quntidade = 50;
+            m->numItens++;
+            // Item 4
+            strcpy(m->itens[m->numItens].nome, "Colete");
+            strcpy(m->itens[m->numItens].tipo, "Equipamento");
+            m->itens[m->numItens].quntidade = 1;
+            m->numItens++;
+            // Item 5
+            strcpy(m->itens[m->numItens].nome, "Kit Medico");
+            strcpy(m->itens[m->numItens].tipo, "Cura");
+            m->itens[m->numItens].quntidade = 1;
+            m->numItens++;
+            return;
+            /**
+             * ------------------------------------------------------
+             * MODO DE ADIÇÃO DE ITENMS MANUAL
+             * DEVE SER APAGADO EM MODO PRODUÇÃO
+             * ------------------------------------------------------
+             */
+        } else {
+            // Loop para adicionar um item, parando quando entrar um item vazio
+            do {
+                // if (m->numItens == MAX_ITENS){
+                //     printf("A mochila está cheia. Não é possível adicionar mais itens.\n");
+                // } else {
+                    // Iniciallaizando o item da mochila
+                    m->itens[m->numItens].quntidade = 0;
+                    // Solicitar o nome do item
+                    printf("Digite o nome do item a ser adicionado na mochila (ou pressione Enter para sair): ");
+                    fgets(item, TAM_STRING, stdin);
+                    // Remover o caractere de nova linha, se presente
+                    item[strcspn(item, "\n")] = 0;
 
-                // Copiar o item para a mochila se o item não estiver vazio
-                if (strlen(item) > 0){
-                    // Solicitar a quantidade do item
-                    do{
-                        printf("Quanatos itens foram encontrados? ");
-                        scanf("%d", &quantidade);
-                        limparBufferEntrada();
-                    } while (quantidade < 1);
-
-                    // Procura pelo item na mochila
-                    int indiceItem = buscarItemPorNome(*m, item);
-                    if (indiceItem != -1){
-                        // Item já existe, incrementar a quantidade
-                        m->itens[indiceItem].quntidade += quantidade;
-                        printf("Item '%s' já existe na mochila. Quantidade incrementada para %d.\n", item, m->itens[indiceItem].quntidade);
-                    } else {
-                        // Copiando o nome do item para a mochila
-                        strcpy(m->itens[m->numItens].nome, item);
-                        // Incrementando o número de itens na mochila
-                        m->numItens++;
-                        // Solicitar o tipo do item
-                        exibirTiposItens(tipoItens);
-                        int tipoEscolhido;
-                        do {
-                            printf("Digite o número correspondente ao tipo do item: ");
-                            scanf("%d", &tipoEscolhido);
+                    // Copiar o item para a mochila se o item não estiver vazio
+                    if (strlen(item) > 0){
+                        // Solicitar a quantidade do item
+                        do{
+                            printf("Quanatos itens foram encontrados? ");
+                            scanf("%d", &quantidade);
                             limparBufferEntrada();
-                            if (tipoEscolhido < 1 || tipoEscolhido > 5){
-                                printf("Tipo inválido. Tente novamente.\n");
-                            }
-                        } while (tipoEscolhido < 1 || tipoEscolhido > 5);
-                        strcpy(m->itens[m->numItens - 1].tipo, tipoItens[tipoEscolhido - 1]);
-                        // Incrementando a quantidade do item
-                        m->itens[m->numItens - 1].quntidade = quantidade;
-                        // Mensagem de sucesso
-                        printf("Item adicionado com sucesso!\n");
-                        printf("----------------------------------\n");
+                        } while (quantidade < 1);
+
+                        // Procura pelo item na mochila
+                        int indiceItem = buscarItemPorNome(*m, item);
+                        if (indiceItem != -1){
+                            // Item já existe, incrementar a quantidade
+                            m->itens[indiceItem].quntidade += quantidade;
+                            printf("Item '%s' já existe na mochila. Quantidade incrementada para %d.\n", item, m->itens[indiceItem].quntidade);
+                        } else {
+                            // Copiando o nome do item para a mochila
+                            strcpy(m->itens[m->numItens].nome, item);
+                            // Incrementando o número de itens na mochila
+                            m->numItens++;
+                            // Solicitar o tipo do item
+                            exibirTiposItens(tipoItens);
+                            int tipoEscolhido;
+                            do {
+                                printf("Digite o número correspondente ao tipo do item: ");
+                                scanf("%d", &tipoEscolhido);
+                                limparBufferEntrada();
+                                if (tipoEscolhido < 1 || tipoEscolhido > 5){
+                                    printf("Tipo inválido. Tente novamente.\n");
+                                }
+                            } while (tipoEscolhido < 1 || tipoEscolhido > 5);
+                            strcpy(m->itens[m->numItens - 1].tipo, tipoItens[tipoEscolhido - 1]);
+                            // Incrementando a quantidade do item
+                            m->itens[m->numItens - 1].quntidade = quantidade;
+                            // Mensagem de sucesso
+                            printf("Item adicionado com sucesso!\n");
+                            printf("----------------------------------\n");
+                        }
                     }
-                }
-            // }
-        } while (m->numItens < MAX_ITENS && strlen(item) > 0);
+                // }
+            } while (m->numItens < MAX_ITENS && strlen(item) > 0);
+        }
     }
 }
 
