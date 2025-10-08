@@ -7,11 +7,9 @@
  * @author Wellington Kister do Nascimento
  */
 
-// Estrutrura para representar um nó na lista encadeada
+// Estrutura para representar um nó na lista encadeada
 typedef struct noMochila {
-    char nome[TAM_STRING];     // Nome do item
-    char tipo[TAM_STRING];     // Tipo do item (Arma, Munição, Cura, Equipamento, Outro)
-    int quantidade;            // Quantidade do item
+    struct Item item;          // Item armazenado no nó
     struct noMochila* proximo; // Ponteiro para o próximo nó na lista
 } noMochila;
 

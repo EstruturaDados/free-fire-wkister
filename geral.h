@@ -7,6 +7,13 @@
 // Vetor de tipos de itens
 extern char tipoItens[5][TAM_STRING];
 
+// Estrutura para representar um item na mochila
+struct Item {
+    char nome[TAM_STRING]; // Nome do item
+    char tipo[TAM_STRING]; // Tipo do item (Arma, Munição, Cura, Equipamento, Outro)
+    int quantidade; // Quantidade do item
+};
+
 // --- Protótipos das funções gerais ---
 // Função para limpar o buffer de entrada
 void limparBufferEntrada();

@@ -12,13 +12,6 @@
 #define MAX_JOGADORES 10 // Número máximo de jogadores
 
 // --- Definição da Estrutura de Dados ---
-// Estrutura para representar um item na mochila
-struct Item {
-    char nome[TAM_STRING]; // Nome do item
-    char tipo[TAM_STRING]; // Tipo do item (Arma, Munição, Cura, Equipamento, Outro)
-    int quntidade; // Quantidade do item
-};
-
 // Estrutra para a mochila
 typedef struct mochila{
     struct Item itens[MAX_ITENS]; // Vetor de itens, com no maáximo de MAX_ITENS
