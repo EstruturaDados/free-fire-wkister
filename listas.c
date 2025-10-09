@@ -194,8 +194,6 @@ void removerItemLista(struct mochilaLista* mochila){
     anterior = atual;
     atual = atual->proximo;
   }
-
-
 }
 
 /**
