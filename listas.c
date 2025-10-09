@@ -32,82 +32,142 @@ void inserirItemLista(struct mochilaLista* mochila, char tipoItens[5][TAM_STRING
     char item[TAM_STRING];
     int quantidade = 0;
 
-    do {
-      // Inicializando o novo nó
-      noMochila* novoNo = (noMochila*) malloc(sizeof(noMochila));
-      if (novoNo == NULL){
-        printf("Erro na alocação de memória para o novo item.\n");
-        free(novoNo);
-        return;
-      }
-
-      novoNo->proximo = NULL; // Inicializa o próximo como NULL
+    printf("Você deseja adicionar alguns itens automaticamente para teste? (s/n): ");
+    scanf(" %c", &escolha);
+    limparBufferEntrada();
+    if (escolha == 's' || escolha == 'S'){
+      /**
+       * ------------------------------------------------------
+       * MODO DE ADIÇÃO DE ITENMS MANUAL
+       * DEVE SER APAGADO EM MODO PRODUÇÃO
+       * ------------------------------------------------------
+       */
+      // Item 1
+      novoNo->item.quantidade = (rand() % 5) + 1;
+      snprintf(novoNo->item.nome, TAM_STRING, "Bandagem", (*mochila).numItens + 1);
+      strcpy(novoNo->item.tipo, "Cura");
+      // Inserindo o novo nó no início da lista
+      novoNo->proximo = (*mochila).lista;
+      (*mochila).lista = novoNo;
+      (*mochila).numItens++;
+      // Item 2
+      novoNo->item.quantidade = (rand() % 5) + 1;
+      snprintf(novoNo->item.nome, TAM_STRING, "Pistola", (*mochila).numItens + 1);
+      strcpy(novoNo->item.tipo, "Arma");
+      // Inserindo o novo nó no início da lista
+      novoNo->proximo = (*mochila).lista;
+      (*mochila).lista = novoNo;
+      (*mochila).numItens++;
+      // Item 3
       novoNo->item.quantidade = 0; // Inicializa a quantidade como 0
-
-      // Solicitar o nome do item
-      printf("Digite o nome do item a ser adicionado na mochila (ou pressione Enter para sair): ");
-      fgets(item, TAM_STRING, stdin);
-      item[strcspn(item, "\n")] = 0; // Remover o caractere de nova linha
-
-      // Copiar o item para a mochila se o item não estiver vazio
-      if (strlen(item) > 0){
-        // Solicitar a quantidade do item
-        do{
-          printf("Quanatos itens foram encontrados? ");
-          scanf("%d", &quantidade);
-          limparBufferEntrada();
-        } while (quantidade < 1);
-
-        // Procurar pelo item na lista
-        int indiceItem = buscarItemPorNomeLista(*mochila, item);
-        if (indiceItem != -1){
-          // Item já existe, incrementar a quantidade
-          noMochila* atual = (*mochila).lista;
-
-          // Varrer a lista até o índice do item encontrado
-          for (int i = 0; i < indiceItem; i++){
-            atual = atual->proximo;
-          }
-
-          // Incrementar a quantidade do item existente
-          atual->item.quantidade += quantidade;
-          printf("Item '%s' já existe na mochila. Quantidade incrementada para %d.\n", item, atual->item.quantidade);
-          free(novoNo); // Liberar a memória alocada para o novo nó, pois não será usado
-        } else {
-          // Copiando o nome do item para a mochila
-          strcpy(novoNo->item.nome, item);
-          // Incrementando o número de itens na mochila
-          (*mochila).numItens++;
-          // Solicitar o tipo do item
-          exibirTiposItens(tipoItens);
-          int tipoEscolhido;
-          do {
-            printf("Digite o número correspondente ao tipo do item: ");
-            scanf("%d", &tipoEscolhido);
-            limparBufferEntrada();
-            if (tipoEscolhido < 1 || tipoEscolhido > 5){
-              printf("Tipo inválido. Tente novamente.\n");
-            }
-          } while (tipoEscolhido < 1 || tipoEscolhido > 5);
-          // Copiando o tipo do item para a mochila
-          strcpy(novoNo->item.tipo, tipoItens[tipoEscolhido - 1]);
-          // Atribuindo a quantidade ao item
-          novoNo->item.quantidade = quantidade;
-          // Inserindo o novo nó no início da lista
-          novoNo->proximo = (*mochila).lista;
-          (*mochila).lista = novoNo;
-          printf("Item '%s' adicionado à mochila com sucesso!\n", item);
-        }
-      } else {
-        free(novoNo); // Liberar a memória alocada para o novo nó, pois não será usado
-      }
-    } while (strlen(item) > 0 && (*mochila).numItens < MAX_ITENS);
-    if ((*mochila).numItens >= MAX_ITENS){
-      printf("A mochila está cheia. Não é possível adicionar mais itens.\n");
+      novoNo->item.quantidade = (rand() % 5) + 1;
+      snprintf(novoNo->item.nome, TAM_STRING, "Municaoo de Pistola", (*mochila).numItens + 1);
+      strcpy(novoNo->item.tipo, "Municao");
+      // Inserindo o novo nó no início da lista
+      novoNo->proximo = (*mochila).lista;
+      (*mochila).lista = novoNo;
+      (*mochila).numItens++;
+      // Item 4
+      novoNo->item.quantidade = (rand() % 5) + 1;
+      snprintf(novoNo->item.nome, TAM_STRING, "Colete", (*mochila).numItens + 1);
+      strcpy(novoNo->item.tipo, "Equipamento");
+      // Inserindo o novo nó no início da lista
+      novoNo->proximo = (*mochila).lista;
+      (*mochila).lista = novoNo;
+      (*mochila).numItens++;
+      // Item 5
+      novoNo->item.quantidade = (ranad() % 5) + 1;
+      snprintf(novoNo->item.nome, TAM_STRING, "Kit Medico", (*mochila).numItens + 1);
+      strcpy(novoNo->item.tipo, "Cura");
+      // Inserindo o novo nó no início da lista
+      novoNo->proximo = (*mochila).lista;
+      (*mochila).lista = novoNo;
+      (*mochila).numItens++;
       return;
-    }
+      /**
+       * ------------------------------------------------------
+       * MODO DE ADIÇÃO DE ITENMS MANUAL
+       * DEVE SER APAGADO EM MODO PRODUÇÃO
+       * ------------------------------------------------------
+       */
+    } else {
+      // Loop para adicionar um item, parando quando entrar um item vazio
+      do {
+        // Inicializando o novo nó
+        noMochila* novoNo = (noMochila*) malloc(sizeof(noMochila));
+        if (novoNo == NULL){
+          printf("Erro na alocação de memória para o novo item.\n");
+          free(novoNo);
+          return;
+        }
 
-    printf("Qual o nome do item a ser adicionado na mochila (ou pressione Enter para sair)? ");
+        novoNo->proximo = NULL; // Inicializa o próximo como NULL
+        novoNo->item.quantidade = 0; // Inicializa a quantidade como 0
+
+        // Solicitar o nome do item
+        printf("Digite o nome do item a ser adicionado na mochila (ou pressione Enter para sair): ");
+        fgets(item, TAM_STRING, stdin);
+        item[strcspn(item, "\n")] = 0; // Remover o caractere de nova linha
+
+        // Copiar o item para a mochila se o item não estiver vazio
+        if (strlen(item) > 0){
+          // Solicitar a quantidade do item
+          do{
+            printf("Quanatos itens foram encontrados? ");
+            scanf("%d", &quantidade);
+            limparBufferEntrada();
+          } while (quantidade < 1);
+
+          // Procurar pelo item na lista
+          int indiceItem = buscarItemPorNomeLista(*mochila, item);
+          if (indiceItem != -1){
+            // Item já existe, incrementar a quantidade
+            noMochila* atual = (*mochila).lista;
+
+            // Varrer a lista até o índice do item encontrado
+            for (int i = 0; i < indiceItem; i++){
+              atual = atual->proximo;
+            }
+
+            // Incrementar a quantidade do item existente
+            atual->item.quantidade += quantidade;
+            printf("Item '%s' já existe na mochila. Quantidade incrementada para %d.\n", item, atual->item.quantidade);
+            free(novoNo); // Liberar a memória alocada para o novo nó, pois não será usado
+          } else {
+            // Copiando o nome do item para a mochila
+            strcpy(novoNo->item.nome, item);
+            // Incrementando o número de itens na mochila
+            (*mochila).numItens++;
+            // Solicitar o tipo do item
+            exibirTiposItens(tipoItens);
+            int tipoEscolhido;
+            do {
+              printf("Digite o número correspondente ao tipo do item: ");
+              scanf("%d", &tipoEscolhido);
+              limparBufferEntrada();
+              if (tipoEscolhido < 1 || tipoEscolhido > 5){
+                printf("Tipo inválido. Tente novamente.\n");
+              }
+            } while (tipoEscolhido < 1 || tipoEscolhido > 5);
+            // Copiando o tipo do item para a mochila
+            strcpy(novoNo->item.tipo, tipoItens[tipoEscolhido - 1]);
+            // Atribuindo a quantidade ao item
+            novoNo->item.quantidade = quantidade;
+            // Inserindo o novo nó no início da lista
+            novoNo->proximo = (*mochila).lista;
+            (*mochila).lista = novoNo;
+            printf("Item '%s' adicionado à mochila com sucesso!\n", item);
+          }
+        } else {
+          free(novoNo); // Liberar a memória alocada para o novo nó, pois não será usado
+        }
+      } while (strlen(item) > 0 && (*mochila).numItens < MAX_ITENS);
+    // if ((*mochila).numItens >= MAX_ITENS){
+    //   printf("A mochila está cheia. Não é possível adicionar mais itens.\n");
+    //   return;
+    // }
+
+    // printf("Qual o nome do item a ser adicionado na mochila (ou pressione Enter para sair)? ");
   }
 }
 
@@ -115,17 +175,55 @@ void inserirItemLista(struct mochilaLista* mochila, char tipoItens[5][TAM_STRING
  * @brief Função para remover um item da lista
  * @param mochila Ponteiro para o início da lista
  */
-// void removerItemLista(struct mochilaLista* mochila){
+void removerItemLista(struct mochilaLista* mochila){
+  // Verificar se a mochila está vazia
+  if ((*mochila).numItens == 0 || (*mochila).lista == NULL){
+    printf("A mochila está vazia. Não é possível remover itens.\n");
+    return;
+  }
 
-// }
+  // Pergunta o nome do item a ser removido
+  char item[TAM_STRING];
+  printf("Digite o nome do item a ser removido da mochila: ");
+  fgets(item, TAM_STRING, stdin);
+  item[strcspn(item, "\n")] = 0; // Remover o caractere de nova linha
+  // Procurar o item na lista
+  noMochila* atual = (*mochila).lista;
+  noMochila* anterior = NULL;
+  while (atual != NULL && strcmp(atual->item.nome, item) != 0){
+    anterior = atual;
+    atual = atual->proximo;
+  }
+
+
+}
 
 /**
  * @brief Função para listar os itens na lista
  * @param mochila Ponteiro para o início da lista
  */
-// void listarItensLista(struct mochilaLista mochila){
-
-// }
+void listarItensLista(struct mochilaLista mochila){
+  printf("\n---------------------------\n");
+  printf("--- Itens na Mochila (Lista encadeada) ---\n");
+  printf("---------------------------\n");
+  if (mochila.numItens == 0 || mochila.lista == NULL){
+    printf("A mochila está vazia.\n");
+  } else {
+    noMochila* atual = mochila.lista;
+    int indice = 1;
+    while (atual != NULL){
+      printf("Item %d:\n", indice);
+      printf("Nome      : %s\n", atual->item.nome);
+      printf("Tipo      : %s\n", atual->item.tipo);
+      printf("Quantidade: %d\n", atual->item.quantidade);
+      printf("---------------------------\n");
+      atual = atual->proximo;
+      indice++;
+    }
+    printf("Total de itens na mochila: %d\n", mochila.numItens);
+    printf("---------------------------\n");
+  }
+}
 
 /**
  * @brief Função para buscar um item na lista sequencialmente
