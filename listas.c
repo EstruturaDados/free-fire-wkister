@@ -20,13 +20,13 @@
  * @param mochila Ponteiro para o início da lista
  * @param tipoItens Matriz de strings com os tipos de itens disponíveis
  */
-void inserirItemLista(struct mochilaLista** mochila, char tipoItens[5][TAM_STRING]){
+void inserirItemLista(struct mochilaLista* mochila, char tipoItens[5][TAM_STRING]){
   printf("\n----------------------------------\n");
   printf("--- Adicionar Itens na Mochila (Lista encadeada) ---\n");
   printf("----------------------------------\n");
 
   // Verificar se a Mochila está cheia
-  if ((*mochila)->numItens >= MAX_ITENS){
+  if ((*mochila).numItens >= MAX_ITENS){
     printf("A mochila está cheia. Não é possível adicionar mais itens.\n");
   } else {
     char item[TAM_STRING];
@@ -42,7 +42,7 @@ void inserirItemLista(struct mochilaLista** mochila, char tipoItens[5][TAM_STRIN
       }
 
       novoNo->proximo = NULL; // Inicializa o próximo como NULL
-      novoNo->quantidade = 0; // Inicializa a quantidade como 0
+      novoNo->item.quantidade = 0; // Inicializa a quantidade como 0
 
       // Solicitar o nome do item
       printf("Digite o nome do item a ser adicionado na mochila (ou pressione Enter para sair): ");
@@ -62,7 +62,7 @@ void inserirItemLista(struct mochilaLista** mochila, char tipoItens[5][TAM_STRIN
         int indiceItem = buscarItemPorNomeLista(*mochila, item);
         if (indiceItem != -1){
           // Item já existe, incrementar a quantidade
-          noMochila* atual = (*mochila)->mochila;
+          noMochila* atual = (*mochila).lista;
 
           // Varrer a lista até o índice do item encontrado
           for (int i = 0; i < indiceItem; i++){
@@ -70,14 +70,14 @@ void inserirItemLista(struct mochilaLista** mochila, char tipoItens[5][TAM_STRIN
           }
 
           // Incrementar a quantidade do item existente
-          atual->quantidade += quantidade;
-          printf("Item '%s' já existe na mochila. Quantidade incrementada para %d.\n", item, atual->quantidade);
+          atual->item.quantidade += quantidade;
+          printf("Item '%s' já existe na mochila. Quantidade incrementada para %d.\n", item, atual->item.quantidade);
           free(novoNo); // Liberar a memória alocada para o novo nó, pois não será usado
         } else {
           // Copiando o nome do item para a mochila
-          strcpy(novoNo->nome, item);
+          strcpy(novoNo->item.nome, item);
           // Incrementando o número de itens na mochila
-          (*mochila)->numItens++;
+          (*mochila).numItens++;
           // Solicitar o tipo do item
           exibirTiposItens(tipoItens);
           int tipoEscolhido;
@@ -86,6 +86,26 @@ void inserirItemLista(struct mochilaLista** mochila, char tipoItens[5][TAM_STRIN
             scanf("%d", &tipoEscolhido);
             limparBufferEntrada();
             if (tipoEscolhido < 1 || tipoEscolhido > 5){
+              printf("Tipo inválido. Tente novamente.\n");
+            }
+          } while (tipoEscolhido < 1 || tipoEscolhido > 5);
+          // Copiando o tipo do item para a mochila
+          strcpy(novoNo->item.tipo, tipoItens[tipoEscolhido - 1]);
+          // Atribuindo a quantidade ao item
+          novoNo->item.quantidade = quantidade;
+          // Inserindo o novo nó no início da lista
+          novoNo->proximo = (*mochila).lista;
+          (*mochila).lista = novoNo;
+          printf("Item '%s' adicionado à mochila com sucesso!\n", item);
+        }
+      } else {
+        free(novoNo); // Liberar a memória alocada para o novo nó, pois não será usado
+      }
+    } while (strlen(item) > 0 && (*mochila).numItens < MAX_ITENS);
+    if ((*mochila).numItens >= MAX_ITENS){
+      printf("A mochila está cheia. Não é possível adicionar mais itens.\n");
+      return;
+    }
 
     printf("Qual o nome do item a ser adicionado na mochila (ou pressione Enter para sair)? ");
   }
@@ -95,7 +115,7 @@ void inserirItemLista(struct mochilaLista** mochila, char tipoItens[5][TAM_STRIN
  * @brief Função para remover um item da lista
  * @param mochila Ponteiro para o início da lista
  */
-// void removerItemLista(struct mochilaLista** mochila){
+// void removerItemLista(struct mochilaLista* mochila){
 
 // }
 
@@ -103,7 +123,7 @@ void inserirItemLista(struct mochilaLista** mochila, char tipoItens[5][TAM_STRIN
  * @brief Função para listar os itens na lista
  * @param mochila Ponteiro para o início da lista
  */
-// void listarItensLista(struct mochilaLista* mochila){
+// void listarItensLista(struct mochilaLista mochila){
 
 // }
 
@@ -111,7 +131,7 @@ void inserirItemLista(struct mochilaLista** mochila, char tipoItens[5][TAM_STRIN
  * @brief Função para buscar um item na lista sequencialmente
  * @param mochila Ponteiro para o início da lista
  */
-// void buscarItemLista(struct mochilaLista* mochila){
+// void buscarItemLista(struct mochilaLista mochila){
 
 // }
 
@@ -121,11 +141,11 @@ void inserirItemLista(struct mochilaLista** mochila, char tipoItens[5][TAM_STRIN
  * @param nome Nome do item a ser buscado
  * @return Posição do item na lista (0-based) ou -1 se não encontrado
  */
-int buscarItemPorNomeLista(struct mochilaLista* mochila, char nome[TAM_STRING]){
-    noMochila* atual = mochila->mochila;
+int buscarItemPorNomeLista(struct mochilaLista mochila, char nome[TAM_STRING]){
+    noMochila* atual = mochila.lista;
     int posicao = 0;
     while (atual != NULL){
-        if (strcmp((*atual)->nome, nome) == 0){
+        if (strcmp((*atual).item.nome, nome) == 0){
             return posicao; // Item encontrado, retornar a posição
         }
         atual = atual->proximo;

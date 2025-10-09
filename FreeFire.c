@@ -25,16 +25,16 @@ int main() {
     // Definir e inicializar o vetor de mochila
     mochila minhaMochila;
     // Inicializando o vetor de mochila
-    minhaMochila.numItens = 0;
+    minhaMochila.numItens = 0; // Inicializa o número de itens como 0
     minhaMochila.ordenado = 0; // Inicialmente não está ordenada
 
     // Definição da variável para lista da lista de Mochila
-    mochilaLista minhaMochilaLista;
+    struct mochilaLista minhaMochilaLista;
 
     // Inicializando a lista da mochila
-    minhaMochilaLista.inicio = NULL; // Inicializa o início da lista como NULL
-    minhaMochilaLista.numItens = 0; // Inicializa o número de itens como 0
-    minhaMochilaLista.ordenado = 0; // Inicializa a flag de ordenação como 0 (não ordenada)
+    minhaMochilaLista.lista = NULL; // Inicializa o início da lista como NULL
+    minhaMochilaLista.numItens = 0;  // Inicializa o número de itens como 0
+    minhaMochilaLista.ordenado = 0;  // Inicializa a flag de ordenação como 0 (não ordenada)
 
     // Variável para armazenar a opção do menu
     int opcao = 0;
@@ -64,6 +64,9 @@ int main() {
             }
             case 6:
                 ordenarItensPorNome(&minhaMochila);
+                break;
+            case 8:
+                inserirItemLista(&minhaMochilaLista, tipoItens);
                 break;
             case 0:
                 printf("Saindo do programa. Até a próxima!\n");

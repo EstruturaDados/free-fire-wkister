@@ -41,7 +41,7 @@ void cadastrarItem(mochila *m, char tipoItens[5][TAM_STRING]){
             // Adicionar item
             strcpy(m->itens[m->numItens].nome, item);
             strcpy(m->itens[m->numItens].tipo, tipoItens[tipoAleatorio]);
-            m->itens[m->numItens].quntidade = quantidade;
+            m->itens[m->numItens].quantidade = quantidade;
             m->numItens++; // Incrementar o número de itens na mochila
             numOperacoes++; // Incrementar o contador de operações
             printf("Item '%s' do tipo '%s' adicionado com quantidade %d.\n", item, tipoItens[tipoAleatorio], quantidade);
@@ -71,27 +71,27 @@ void cadastrarItem(mochila *m, char tipoItens[5][TAM_STRING]){
             // Item 1
             strcpy(m->itens[m->numItens].nome, "Bandagem");
             strcpy(m->itens[m->numItens].tipo, "Cura");
-            m->itens[m->numItens].quntidade = 3;
+            m->itens[m->numItens].quantidade = 3;
             m->numItens++;
             // Item 2
             strcpy(m->itens[m->numItens].nome, "Pistola");
             strcpy(m->itens[m->numItens].tipo, "Arma");
-            m->itens[m->numItens].quntidade = 1;
+            m->itens[m->numItens].quantidade = 1;
             m->numItens++;
             // Item 3
             strcpy(m->itens[m->numItens].nome, "Municaoo de Pistola");
             strcpy(m->itens[m->numItens].tipo, "Municao");
-            m->itens[m->numItens].quntidade = 50;
+            m->itens[m->numItens].quantidade = 50;
             m->numItens++;
             // Item 4
             strcpy(m->itens[m->numItens].nome, "Colete");
             strcpy(m->itens[m->numItens].tipo, "Equipamento");
-            m->itens[m->numItens].quntidade = 1;
+            m->itens[m->numItens].quantidade = 1;
             m->numItens++;
             // Item 5
             strcpy(m->itens[m->numItens].nome, "Kit Medico");
             strcpy(m->itens[m->numItens].tipo, "Cura");
-            m->itens[m->numItens].quntidade = 1;
+            m->itens[m->numItens].quantidade = 1;
             m->numItens++;
             return;
             /**
@@ -107,7 +107,7 @@ void cadastrarItem(mochila *m, char tipoItens[5][TAM_STRING]){
                 //     printf("A mochila está cheia. Não é possível adicionar mais itens.\n");
                 // } else {
                     // Iniciallaizando o item da mochila
-                    m->itens[m->numItens].quntidade = 0;
+                    m->itens[m->numItens].quantidade = 0;
                     // Solicitar o nome do item
                     printf("Digite o nome do item a ser adicionado na mochila (ou pressione Enter para sair): ");
                     fgets(item, TAM_STRING, stdin);
@@ -127,8 +127,8 @@ void cadastrarItem(mochila *m, char tipoItens[5][TAM_STRING]){
                         int indiceItem = buscarItemPorNome(*m, item);
                         if (indiceItem != -1){
                             // Item já existe, incrementar a quantidade
-                            m->itens[indiceItem].quntidade += quantidade;
-                            printf("Item '%s' já existe na mochila. Quantidade incrementada para %d.\n", item, m->itens[indiceItem].quntidade);
+                            m->itens[indiceItem].quantidade += quantidade;
+                            printf("Item '%s' já existe na mochila. Quantidade incrementada para %d.\n", item, m->itens[indiceItem].quantidade);
                         } else {
                             // Copiando o nome do item para a mochila
                             strcpy(m->itens[m->numItens].nome, item);
@@ -147,7 +147,7 @@ void cadastrarItem(mochila *m, char tipoItens[5][TAM_STRING]){
                             } while (tipoEscolhido < 1 || tipoEscolhido > 5);
                             strcpy(m->itens[m->numItens - 1].tipo, tipoItens[tipoEscolhido - 1]);
                             // Incrementando a quantidade do item
-                            m->itens[m->numItens - 1].quntidade = quantidade;
+                            m->itens[m->numItens - 1].quantidade = quantidade;
                             // Mensagem de sucesso
                             printf("Item adicionado com sucesso!\n");
                             printf("----------------------------------\n");
@@ -197,32 +197,32 @@ void removerItemPorNome(mochila *m, char item[TAM_STRING]){
             // Perguntando quantos itens deseja remover
             int quantidadeRemover;
             do {
-                printf("Quantos '%s' deseja remover? (Quantidade atual: %d): ", item, m->itens[i].quntidade);
+                printf("Quantos '%s' deseja remover? (Quantidade atual: %d): ", item, m->itens[i].quantidade);
                 scanf("%d", &quantidadeRemover);
                 limparBufferEntrada();
-                if (quantidadeRemover < 1 || quantidadeRemover > m->itens[i].quntidade){
+                if (quantidadeRemover < 1 || quantidadeRemover > m->itens[i].quantidade){
                     printf("Quantidade inválida. Tente novamente.\n");
                 }
-            } while (quantidadeRemover < 1 || quantidadeRemover > m->itens[i].quntidade);
+            } while (quantidadeRemover < 1 || quantidadeRemover > m->itens[i].quantidade);
             // Removendo a quantidade especificada
-            m->itens[i].quntidade -= quantidadeRemover;
+            m->itens[i].quantidade -= quantidadeRemover;
             // Se remover toda a quantidade, eliminar o item da mochila
-            if (m->itens[i].quntidade == 0){
+            if (m->itens[i].quantidade == 0){
                 // Deslocar os itens seguintes para preencher a lacuna
                 for (int j = i; j < m->numItens - 1; j++){
                     strcpy(m->itens[j].nome, m->itens[j + 1].nome);
                     strcpy(m->itens[j].tipo, m->itens[j + 1].tipo);
-                    m->itens[j].quntidade = m->itens[j + 1].quntidade;
+                    m->itens[j].quantidade = m->itens[j + 1].quantidade;
                     numOperacoes++; // Incrementar o contador de operações
                 }
                 // Apaganado o último item duplicado
                 m->itens[m->numItens - 1].nome[0] = '\0';
                 m->itens[m->numItens - 1].tipo[0] = '\0';
-                m->itens[m->numItens - 1].quntidade = 0;
+                m->itens[m->numItens - 1].quantidade = 0;
                 // Decrementar o total de itens
                 m->numItens--;
             } else {
-                printf("Removida '%d' itens de %s.\n", m->itens[i].quntidade, item);
+                printf("Removida '%d' itens de %s.\n", m->itens[i].quantidade, item);
             }
             printf("Item '%s' removido com sucesso!\n", item);
             printf("------------------------------\n");
@@ -247,7 +247,7 @@ void listarItens(mochila m){
         printf("| %-20s | %-15s | %-5s |\n", "Nome", "Tipo", "Qtd");
         printf("-------------------------------------------------\n");
         for (int i = 0; i < m.numItens; i++){
-            printf("| %-20s | %-15s | %-5d |\n", m.itens[i].nome, m.itens[i].tipo, m.itens[i].quntidade);
+            printf("| %-20s | %-15s | %-5d |\n", m.itens[i].nome, m.itens[i].tipo, m.itens[i].quantidade);
         }
         printf("-------------------------------------------------\n");
     }
@@ -291,7 +291,7 @@ int buscarItemPorNome(mochila m, char nome[TAM_STRING]){
             printf("Item encontrado na posição %d:\n", i + 1);
             printf("Nome: %s\n", m.itens[i].nome);
             printf("Tipo: %s\n", m.itens[i].tipo);
-            printf("Quantidade: %d\n", m.itens[i].quntidade);
+            printf("Quantidade: %d\n", m.itens[i].quantidade);
             printf("-----------------------------\n");
             return i;
         }
@@ -380,7 +380,7 @@ void buscarItemBinariaRecursivaAux(mochila m, char nome[TAM_STRING], int inicio,
         printf("Item encontrado na posição %d:\n", meio + 1);
         printf("Nome: %s\n", m.itens[meio].nome);
         printf("Tipo: %s\n", m.itens[meio].tipo);
-        printf("Quantidade: %d\n", m.itens[meio].quntidade);
+        printf("Quantidade: %d\n", m.itens[meio].quantidade);
         printf("----------------------------------\n");
         printf("Total de operações realizadas: %d\n", *numOperacoes);
         printf("----------------------------------\n");

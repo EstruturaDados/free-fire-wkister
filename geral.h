@@ -3,6 +3,7 @@
 
 // --- Constantes ---
 #define TAM_STRING 50 // Tamanho máximo para strings
+#define MAX_ITENS 100 // Tamanho máximo de itens na mochila
 
 // Vetor de tipos de itens
 extern char tipoItens[5][TAM_STRING];

@@ -8,7 +8,6 @@
  */
 
 // --- Constantes ---
-#define MAX_ITENS 100  // Tamanho máximo de itens na mochila
 #define MAX_JOGADORES 10 // Número máximo de jogadores
 
 // --- Definição da Estrutura de Dados ---

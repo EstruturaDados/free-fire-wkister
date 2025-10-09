@@ -4,11 +4,10 @@
       "label": "Build com Make",
       "type": "shell",
       "command": "make",
-      "args": ["file=${relativeFile}"],
-      "group": {
-        "kind": "build",
-        "isDefault": true
-      },
+      "args": [
+        "file=${relativeFile}"
+      ],
+      "group": "build",
       "problemMatcher": [
         "$gcc"
       ]
