@@ -26,6 +26,6 @@ void inserirItemMochila(struct mochilaLista* mochila, char tipoItens[5][TAM_STRI
 void removerItemMochila(struct mochilaLista* mochila); // Remove um item da lista
 void listarItensMochila(struct mochilaLista mochila); // Lista os itens na lista
 void buscarItemLista(struct noMochila* lista); // Busca um item na lista sequencialmente
-struct Item* buscarItemPorNomeLista(noMochila* lista, char nome[TAM_STRING]); // Busca um item por nome na lista, retornando sua posição ou -1 se não encontrado
+struct noMochila* buscarItemPorNomeLista(noMochila* lista, char nome[TAM_STRING]); // Busca um item por nome na lista, retornando sua posição ou -1 se não encontrado
 
 #endif

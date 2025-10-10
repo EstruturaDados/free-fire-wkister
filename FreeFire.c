@@ -66,7 +66,7 @@ int main() {
                 ordenarItensPorNome(&minhaMochila);
                 break;
             case 8:
-                inserirItemLista(&minhaMochilaLista, tipoItens);
+                inserirItemMochila(&minhaMochilaLista, tipoItens);
                 break;
             case 0:
                 printf("Saindo do programa. Até a próxima!\n");

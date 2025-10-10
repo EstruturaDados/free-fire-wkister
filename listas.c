@@ -21,9 +21,9 @@
  * @param tipoItens Matriz de strings com os tipos de itens disponíveis
  */
 void inserirItemMochila(struct mochilaLista* mochila, char tipoItens[5][TAM_STRING]){
-  printf("\n----------------------------------\n");
+  printf("\n----------------------------------------------------\n");
   printf("--- Adicionar Itens na Mochila (Lista encadeada) ---\n");
-  printf("----------------------------------\n");
+  printf("----------------------------------------------------\n");
 
   // Verificar se a Mochila está cheia
   if ((*mochila).numItens >= MAX_ITENS){
@@ -56,7 +56,9 @@ void inserirItemMochila(struct mochilaLista* mochila, char tipoItens[5][TAM_STRI
        */
       // Testa se a mochila está vazia
       if (mochila->lista != NULL){
+        printf("\n--------------------------\n");
         printf("A mochila já contém itens. Não é possível adicionar itens automaticamente.\n");
+        printf("--------------------------\n");
         // free(novoNo); // Liberar a memória alocada para o novo nó, pois não será usado
         return;
       }
@@ -120,28 +122,24 @@ void inserirItemMochila(struct mochilaLista* mochila, char tipoItens[5][TAM_STRI
         if (strlen(item) > 0){
           // Solicitar a quantidade do item
           do{
-            printf("Quanatos itens foram encontrados? ");
+            printf("Quantos itens foram encontrados? ");
             scanf("%d", &quantidade);
             limparBufferEntrada();
           } while (quantidade < 1);
 
           // Procurar pelo item na lista
-          struct Item* itemEncontrado;
-          itemEncontrado = buscarItemPorNomeLista((*mochila).lista, item);
-          if (itemEncontrado != NULL){
-            // Item já existe, incrementar a quantidade
-            // noMochila* atual = (*mochila).lista;
+          noMochila* atual = (*mochila).lista;
+          while (atual != NULL) {
+            if (strcmp(atual->item.nome, item) == 0) {
+              atual->item.quantidade += quantidade; // Incrementa a quantidade
+              printf("Item '%s' já existe na mochila. Quantidade incrementada para %d.\n", item, atual->item.quantidade);
+              break; // Item encontrado, sair do loop
+            }
+            atual = atual->proximo;
+          }
 
-            // Varrer a lista até o índice do item encontrado
-            // for (int i = 0; i < itemEncontrado; i++){
-            //   atual = atual->proximo;
-            // }
-
-            // Incrementar a quantidade do item existente
-            mochila->lista->item.quantidade += quantidade;
-            printf("Item '%s' já existe na mochila. Quantidade incrementada para %d.\n", item, mochila->lista->item.quantidade);
-            // free(atual); // Liberar a memória alocada para o novo nó, pois não será usado
-          } else {
+          // Se o item não foi encontrado, adicionar um novo nó
+          if (atual == NULL) {
             // Copiando o nome do item para a mochila
             strcpy(novoNo->item.nome, item);
             // Incrementando o número de itens na mochila
@@ -166,8 +164,6 @@ void inserirItemMochila(struct mochilaLista* mochila, char tipoItens[5][TAM_STRI
             (*mochila).lista = novoNo;
             printf("Item '%s' adicionado à mochila com sucesso!\n", item);
           }
-        } else {
-          free(novoNo); // Liberar a memória alocada para o novo nó, pois não será usado
         }
       } while (strlen(item) > 0 && (*mochila).numItens < MAX_ITENS);
       if ((*mochila).numItens >= MAX_ITENS){
@@ -250,16 +246,16 @@ void buscarItemLista(noMochila* lista){
   item[strcspn(item, "\n")] = 0; // Remover o caractere de nova linha
 
   // Procurar o item na lista
-  struct Item* resultado = buscarItemPorNomeLista(lista, item);
+  struct noMochila* resultado = buscarItemPorNomeLista(lista, item);
   if (resultado != NULL){
     // Item encontrado
     printf("\n--------------------------\n");
     printf("--- Resultado da Busca ---\n");
     printf("--------------------------\n");
     printf("Item encontrado:\n");
-    printf("Nome: %s\n", *(resultado->nome));
-    printf("Tipo: %s\n", *(resultado->tipo));
-    printf("Quantidade: %d\n", *(resultado->quantidade));
+    printf("Nome: %s\n", resultado->item.nome);
+    printf("Tipo: %s\n", resultado->item.tipo);
+    printf("Quantidade: %d\n", resultado->item.quantidade);
     printf("-----------------------------\n");
   } else {
     // Item não encontrado
@@ -275,12 +271,12 @@ void buscarItemLista(noMochila* lista){
  * @param nome Nome do item a ser buscado
  * @return Item encontrado, retornar -1 se não encontrado
  */
-struct Item* buscarItemPorNomeLista(noMochila* lista, char nome[TAM_STRING]){
+struct noMochila* buscarItemPorNomeLista(noMochila* lista, char nome[TAM_STRING]){
     noMochila* atual = lista;
     // int posicao = 0;
     while (atual != NULL){
-        if (strcmp(*(atual->item).nome, nome) == 0){
-            return &(atual->item); // Retornando o item encontrado
+        if (strcmp(atual->item.nome, nome) == 0){
+            return atual; // Retornando o nó encontrado
         }
         atual = atual->proximo;
         // posicao++;
