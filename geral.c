@@ -36,3 +36,11 @@ void tempoGasto(clock_t inicio, clock_t fim){
     double tempoGasto = (double)(fim - inicio) / CLOCKS_PER_SEC;
     printf("Tempo gasto: %.6f segundos\n", tempoGasto);
 }
+
+/**
+ * @brief Função para pausar a execução até o usuário pressionar Enter
+ */
+void pausa(){
+    printf("Pressione Enter para continuar...");
+    getchar();
+}

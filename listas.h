@@ -21,11 +21,11 @@ struct mochilaLista {
 };
 
 // Protótipos das funções de manipulação da mochila usando listas encadeadas
-// void liberarMemoriaLista(struct mochilaLista* mochila); // Libera a memória alocada para a lista
-void inserirItemMochila(struct mochilaLista* mochila, char tipoItens[5][TAM_STRING]); // Insere um item na lista
-void removerItemMochila(struct mochilaLista* mochila); // Remove um item da lista
-void listarItensMochila(struct mochilaLista mochila); // Lista os itens na lista
+void liberarMemoriaLista(struct mochilaLista* mochila); // Libera a memória alocada para a lista
+void inserirItemLista(struct mochilaLista* mochila, char tipoItens[5][TAM_STRING]); // Insere um item na lista
+void removerItemLista(struct mochilaLista* mochila); // Remove um item da lista
+void listarItensLista(struct mochilaLista mochila); // Lista os itens na lista
 void buscarItemLista(struct noMochila* lista); // Busca um item na lista sequencialmente
-struct noMochila* buscarItemPorNomeLista(noMochila* lista, char nome[TAM_STRING]); // Busca um item por nome na lista, retornando sua posição ou -1 se não encontrado
+struct noMochila* buscarItemPorNomeLista(struct noMochila* lista, char nome[TAM_STRING]); // Busca um item por nome na lista, retornando sua posição ou -1 se não encontrado
 
 #endif

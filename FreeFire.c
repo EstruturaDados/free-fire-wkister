@@ -18,6 +18,7 @@
 int main() {
     // Semente para números aleatórios
     srand((unsigned int)time(NULL));
+
     // Mensagem de boas-vindas
     printf("+--------------------------------------------------------------------------------+\n");
     printf("| Bem-vindo à simulação de gerenciamento de mochila na Ilha - Free Fire Edition! |\n");
@@ -68,7 +69,17 @@ int main() {
             case 8:
                 inserirItemMochila(&minhaMochilaLista, tipoItens);
                 break;
+            case 9:
+                removerItemLista(&minhaMochilaLista);
+                break;
+            case 10:
+                listarItensLista(minhaMochilaLista);
+                break;
+            case 11:
+                buscarItemLista(minhaMochilaLista.lista);
+                break;
             case 0:
+                liberarMemoriaLista(&minhaMochilaLista);
                 printf("Saindo do programa. Até a próxima!\n");
                 break;
             default:

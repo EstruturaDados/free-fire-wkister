@@ -251,8 +251,7 @@ void listarItens(mochila m){
         }
         printf("-------------------------------------------------\n");
     }
-    printf("Pressione Enter para continuar...");
-    getchar();
+    pausa();
 }
 
 /**
