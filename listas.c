@@ -269,16 +269,12 @@ void buscarItemLista(struct noMochila* lista){
 
   // Procurar o item na lista
   struct noMochila* resultado = buscarItemPorNomeLista(lista, item);
-  struct noMochila* resultado = buscarItemPorNomeLista(lista, item);
   if (resultado != NULL){
     // Item encontrado
     printf("\n--------------------------\n");
     printf("--- Resultado da Busca ---\n");
     printf("--------------------------\n");
     printf("Item encontrado:\n");
-    printf("Nome: %s\n", resultado->item.nome);
-    printf("Tipo: %s\n", resultado->item.tipo);
-    printf("Quantidade: %d\n", resultado->item.quantidade);
     printf("Nome: %s\n", resultado->item.nome);
     printf("Tipo: %s\n", resultado->item.tipo);
     printf("Quantidade: %d\n", resultado->item.quantidade);
@@ -296,9 +292,8 @@ void buscarItemLista(struct noMochila* lista){
  * @brief Função para buscar um item por nome na lista, retornando sua posição ou -1 se não encontrado
  * @param mochila Ponteiro para o início da lista
  * @param nome Nome do item a ser buscado
- * @return Item encontrado, retornar -1 se não encontrado
+ * @return Item encontrado, retornar NULL se não encontrado
  */
-struct noMochila* buscarItemPorNomeLista(noMochila* lista, char nome[TAM_STRING]){
 struct noMochila* buscarItemPorNomeLista(noMochila* lista, char nome[TAM_STRING]){
     noMochila* atual = lista;
     int numProcessos = 0;

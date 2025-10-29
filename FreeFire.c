@@ -8,9 +8,28 @@
 #include "vetores.h"  // Protótipos das funções e definições de vetores
 #include "listas.h"   // Protótipos das funções e definições de listas
 
-// Código da Ilha – Edição Free Fire
-// Nível: Aventureiro
-// Autor: Wellington Kister do Nascimento
+/**
+ * @file FreeFire.c
+ * @brief Código da Ilha – Edição Free Fire
+ * @note Nível: Aventureiro
+ * @author Wellington Kister do Nascimento
+ *
+ * @section compilation Compilação
+ * Para compilar este projeto, você pode usar os seguintes comandos make:
+ *
+ * - make all       : Compila o projeto
+ * - make run      : Compila e executa o programa
+ * - make valgrind : Executa com verificação de vazamento de memória
+ * - make debug    : Compila com flags de depuração adicionais
+ * - make clean    : Remove arquivos compilados
+ *
+ * Exemplo de uso:
+ * @code
+ * $ make clean    # Limpa compilações anteriores
+ * $ make         # Compila o projeto
+ * $ make run     # Executa o programa
+ * @endcode
+ */
 // Este programa simula o gerenciamento avançado de uma mochila com componentes coletados durante a fuga de uma ilha.
 // Ele introduz ordenação com critérios e busca binária para otimizar a gestão dos recursos.
 
@@ -70,10 +89,10 @@ int main() {
                 inserirItemMochila(&minhaMochilaLista, tipoItens);
                 break;
             case 9:
-                removerItemLista(&minhaMochilaLista);
+                removerItemMochila(&minhaMochilaLista);
                 break;
             case 10:
-                listarItensLista(minhaMochilaLista);
+                listarItensMochila(minhaMochilaLista);
                 break;
             case 11:
                 buscarItemLista(minhaMochilaLista.lista);
